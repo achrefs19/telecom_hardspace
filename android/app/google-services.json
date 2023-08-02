@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1015751277825",
+    "project_id": "telecom-hardspace",
+    "storage_bucket": "telecom-hardspace.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1015751277825:android:da4308c96eca0ba4e22f00",
+        "android_client_info": {
+          "package_name": "com.example.f"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1015751277825-qlmddo7s1l9roeulph3njs8djfe5gh6k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpoRYI9Mc_sjt-3rSvuA-LgocDlFtfsSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1015751277825-qlmddo7s1l9roeulph3njs8djfe5gh6k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1015751277825-jve8c3hjosfiiccnr83vdercnf6pauik.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.f"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

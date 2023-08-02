@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1015751277825-ol4qof7frsiliqnd28jus6nf44a2n0ep.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1015751277825-ol4qof7frsiliqnd28jus6nf44a2n0ep</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB2XGX9PC6Z7Tg77OSeMk4Cx-E-eAnD3m4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1015751277825</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.f.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>telecom-hardspace</string>
+	<key>STORAGE_BUCKET</key>
+	<string>telecom-hardspace.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1015751277825:ios:fa162da4897770e8e22f00</string>
+</dict>
+</plist>
