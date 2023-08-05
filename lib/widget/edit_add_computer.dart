@@ -12,9 +12,7 @@ import 'package:windows_system_info/windows_system_info.dart';
 
 class EditAddComputer extends StatefulWidget {
   Computer computer;
-
   EditAddComputer(Computer this.computer, {super.key});
-
   @override
   State<EditAddComputer> createState() => _EditAddComputerState();
 }
@@ -27,15 +25,17 @@ class _EditAddComputerState extends State<EditAddComputer> {
   void _autoDetect() async {
     butttonState = pb.ButtonState.loading;
     setState(() {});
-    await WindowsSystemInfo.initWindowsInfo();
+    await WindowsSystemInfo.initWindowsInfo(requiredValues: [WindowsSystemInfoFeat.baseboard,WindowsSystemInfoFeat.os,WindowsSystemInfoFeat.cpu,WindowsSystemInfoFeat.memory,WindowsSystemInfoFeat.diskLayout]);
     if (await WindowsSystemInfo.isInitilized) {
       _manufacturerController.text = WindowsSystemInfo.baseBoard!.manufacturer;
       _modelController.text = WindowsSystemInfo.os.toString();
       _operatorSystemController.text = WindowsSystemInfo.os!.distro + " " + WindowsSystemInfo.os!.arch;
       _cpuController.text = WindowsSystemInfo.cpu!.brand;
-      _gpuController.text = WindowsSystemInfo.graphics!.controllers[0].model + ", " + WindowsSystemInfo.graphics!.controllers[1].model;
       _ramController.text = ((WindowsSystemInfo.memories[0]!.size+WindowsSystemInfo.memories[1]!.size)/ pow(1024, 3)).toString() + " GB";
       _physicalMemoryController.text = (WindowsSystemInfo.disks[0]!.size~/ pow(1024, 3)).toString()+" GB";
+      /*_gpuController.text = WindowsSystemInfo.graphics!.controllers[0].model + ", " + WindowsSystemInfo.graphics!.controllers[1].model;
+
+      */
     }
     butttonState = pb.ButtonState.success;
     setState(() {});

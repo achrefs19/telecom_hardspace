@@ -14,20 +14,8 @@ class ComputerPage extends StatefulWidget {
 }
 
 class _ComputerPageState extends State<ComputerPage> {
-
   Firestore firestore = Firestore.instance;
   List datas = [];
-
-  Future<List<Computer>> _getComputers() async {
-    List<Computer> computers = [];
-    var map = await Firestore.instance.collection("computers").get();
-    map.forEach((computer) {
-      computers.add(Computer(computer.id,computer["manufacturer"], computer["manufacturer"], computer["purchaseDate"], computer["manufacturer"], computer["manufacturer"], computer["manufacturer"],computer["manufacturer"],computer["manufacturer"]));
-    });
-    return computers;
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -44,26 +32,30 @@ class _ComputerPageState extends State<ComputerPage> {
                 backGroundColor: primaryColor,
                 icon: FluentIcons.add),
           ),
-      content: FutureBuilder<List<Computer>>(
-        future: _getComputers(),
+
+      content: StreamBuilder(
+        stream: Firestore.instance.collection("computers").stream,
         builder: (context, snapshot) {
+
+
           if (snapshot.connectionState == ConnectionState.waiting){
             return const Center(
               child: m.CircularProgressIndicator(),
             );
           }
+          print(snapshot.data![0]["physicalMemory"]);
 
           //check if we don't have data
           if (!snapshot.hasData){
             return const Center(
-              child: Text('No messages found.'),
+              child: Text('No computers found.'),
             );
           }
 
           //check if we have an error
           if (snapshot.hasError){
             return const Center(
-              child: Text('No messages found.'),
+              child: Text('No computers found.'),
             );
           }
 
@@ -74,12 +66,14 @@ class _ComputerPageState extends State<ComputerPage> {
                 return Container(
                     margin: EdgeInsets.only(top: 10),
                     child: Card(
+                      borderRadius: BorderRadius.circular(10),
+                      borderColor: primaryColor,
                       child: Column(
                         children: [
                           ListTile(
-                            title: Text(snapshot.data![index].manufacturer),
+                            title: Text(snapshot.data![index]["manufacturer"]),
                             subtitle: Text(
-                              snapshot.data![index].model,
+                              snapshot.data![index]["manufacturer"],
                               style: TextStyle(color: Colors.black.withOpacity(0.6)),
                             ),
                           ),
@@ -102,7 +96,7 @@ class _ComputerPageState extends State<ComputerPage> {
                                     showDialog(
                                         context: context,
                                         builder: (ctxt) {
-                                          return EditAddComputer(snapshot.data![index]);
+                                          return EditAddComputer(Computer(snapshot.data![index].id,snapshot.data![index]["manufacturer"],snapshot.data![index]["purchaseDate"],snapshot.data![index]["graphicCards"],snapshot.data![index]["purchaseDate"],snapshot.data![index]["purchaseDate"],snapshot.data![index]["purchaseDate"],snapshot.data![index]["purchaseDate"],snapshot.data![index]["purchaseDate"]));
                                         });
                                   },
                                   txt: 'edit'
@@ -121,8 +115,6 @@ class _ComputerPageState extends State<ComputerPage> {
                           ),
                         ],
                       ),
-                      borderRadius: BorderRadius.circular(10),
-                      borderColor: primaryColor,
                     ));
               });
         }

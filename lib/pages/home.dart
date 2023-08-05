@@ -1,6 +1,7 @@
 import 'package:f/components/flat_button.dart';
 import 'package:f/constants.dart';
 import 'package:f/pages/computers_page.dart';
+import 'package:f/services/auth_service.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final FirebaseAuthService _firebaseAuthService = FirebaseAuthService();
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class _HomePageState extends State<HomePage> {
         actions: Row(
           children: [
             Spacer(),
-            FlatButton(onPressed: (){}, icon: Icons.logout, txt: "Logout",backGroundColor: primaryColor,)
+            FlatButton(onPressed: () => _firebaseAuthService.signOut(), icon: Icons.logout, txt: "Logout",backGroundColor: primaryColor,)
           ],
         )
     );
