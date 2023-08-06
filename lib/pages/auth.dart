@@ -60,15 +60,23 @@ class _AuthState extends State<Auth> {
     }
     final FirebaseAuthService _firebaseAuthService = FirebaseAuthService();
       if (_isLogin) {
-        userCredentials = _firebaseAuthService.signIn(_emailController.text, _passwordController.text);
+       await _firebaseAuthService.signIn(_emailController.text, _passwordController.text);
       }
       else {
-        userCredentials = _firebaseAuthService.signUp(_emailController.text, _passwordController.text);
+       await _firebaseAuthService.signUp(_emailController.text, _passwordController.text);
       }
 
-      //final storageRef = storage.ref().child("user_images").child("ss");
-      //await storageRef.putFile(_selectedImage!);
-    }
+      if(FirebaseAuth.instance!.isSignedIn && !_isLogin){
+        final userId = FirebaseAuth.instance!.userId;
+        Firestore firestore = Firestore.instance;
+        await firestore.collection("users").document(userId).set({
+          'firstName': _firstNameController.text,
+          'lastName':_lastNameController.text,
+          'email':_emailController.text,
+        });
+      }
+
+  }
 
   late TextEditingController _firstNameController ;
   late TextEditingController _lastNameController ;
@@ -87,15 +95,6 @@ class _AuthState extends State<Auth> {
 
     super.initState();
   }
-
-    /*
-    await _firebaseAuthService.signIn(user.email, user.password);
-    if (_isLogin) {
-      userCredentials =
-          await _firebaseAuthService.signIn(user.email, user.password);
-    } else {
-      userCredentials = await _firebase.signUp(user.email, user.password);
-    }*/
 
     //get storageRef
     /*final storageRef = .instance
@@ -208,7 +207,7 @@ class _AuthState extends State<Auth> {
                   ),
 
                   if (!_isLogin)
-                    TextInput(assetImage: 'assets/verrouiller.png', controller: _confirmPasswordController, hintText: 'Confirm Password'),
+                    TextInput(assetImage: 'assets/verrouiller.png',isPassword: true, controller: _confirmPasswordController, hintText: 'Confirm Password'),
                   Offstage(
                     offstage: confirmPasswordMatch,
                     child: const Text("Passwords doesn't correspond"),

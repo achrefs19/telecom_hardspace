@@ -25,7 +25,7 @@ class _EditAddComputerState extends State<EditAddComputer> {
   void _autoDetect() async {
     butttonState = pb.ButtonState.loading;
     setState(() {});
-    await WindowsSystemInfo.initWindowsInfo(requiredValues: [WindowsSystemInfoFeat.baseboard,WindowsSystemInfoFeat.os,WindowsSystemInfoFeat.cpu,WindowsSystemInfoFeat.memory,WindowsSystemInfoFeat.diskLayout]);
+    await WindowsSystemInfo.initWindowsInfo();
     if (await WindowsSystemInfo.isInitilized) {
       _manufacturerController.text = WindowsSystemInfo.baseBoard!.manufacturer;
       _modelController.text = WindowsSystemInfo.os.toString();
@@ -33,9 +33,7 @@ class _EditAddComputerState extends State<EditAddComputer> {
       _cpuController.text = WindowsSystemInfo.cpu!.brand;
       _ramController.text = ((WindowsSystemInfo.memories[0]!.size+WindowsSystemInfo.memories[1]!.size)/ pow(1024, 3)).toString() + " GB";
       _physicalMemoryController.text = (WindowsSystemInfo.disks[0]!.size~/ pow(1024, 3)).toString()+" GB";
-      /*_gpuController.text = WindowsSystemInfo.graphics!.controllers[0].model + ", " + WindowsSystemInfo.graphics!.controllers[1].model;
-
-      */
+      _gpuController.text = WindowsSystemInfo.graphics!.controllers[0].model + ", " + WindowsSystemInfo.graphics!.controllers[1].model;
     }
     butttonState = pb.ButtonState.success;
     setState(() {});

@@ -1,6 +1,7 @@
 import 'package:f/components/flat_button.dart';
 import 'package:f/constants.dart';
 import 'package:f/models/Computer.dart';
+import 'package:f/services/image_taker.dart';
 import 'package:f/widget/edit_add_computer.dart';
 import 'package:firedart/firedart.dart';
 import 'package:fluent_ui/fluent_ui.dart';
@@ -64,7 +65,7 @@ class _ComputerPageState extends State<ComputerPage> {
               padding: EdgeInsets.all(10),
               itemBuilder: (context, index) {
                 return Container(
-                    margin: EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: 10),
                     child: Card(
                       borderRadius: BorderRadius.circular(10),
                       borderColor: primaryColor,
@@ -76,42 +77,42 @@ class _ComputerPageState extends State<ComputerPage> {
                               snapshot.data![index]["manufacturer"],
                               style: TextStyle(color: Colors.black.withOpacity(0.6)),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-                              style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                            ),
-                          ),
-                          m.ButtonBar(
-                            alignment: MainAxisAlignment.end,
-                            children: [
-                              FlatButton(
-                                  icon: m.Icons.edit,
+                            trailing: m.ButtonBar(
+                              alignment: MainAxisAlignment.end,
+                              children: [
+                                FlatButton(
+                                    icon: m.Icons.edit,
+                                    backGroundColor: Colors.white,
+                                    borderColor: primaryColor,
+                                    textColor: primaryColor,
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (ctxt) {
+                                            return EditAddComputer(Computer(snapshot.data![index].id, snapshot.data![index]["manufacturer"], snapshot.data![index]["manufacturer"], snapshot.data![index]["purchaseDate"], snapshot.data![index]["graphicCards"],snapshot.data![index]["operateurSystem"],snapshot.data![index]["processeur"], snapshot.data![index]["randomAccessMemory"],snapshot.data![index]["physicalMemory"]));
+                                          });
+                                    },
+                                    txt: 'edit'
+                                ),
+                                FlatButton(
+                                  icon: m.Icons.delete,
                                   backGroundColor: Colors.white,
                                   borderColor: primaryColor,
                                   textColor: primaryColor,
                                   onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (ctxt) {
-                                          return EditAddComputer(Computer(snapshot.data![index].id,snapshot.data![index]["manufacturer"],snapshot.data![index]["purchaseDate"],snapshot.data![index]["graphicCards"],snapshot.data![index]["purchaseDate"],snapshot.data![index]["purchaseDate"],snapshot.data![index]["purchaseDate"],snapshot.data![index]["purchaseDate"],snapshot.data![index]["purchaseDate"]));
-                                        });
+                                    firestore.collection("computers").document(snapshot.data![index].id).delete();
                                   },
-                                  txt: 'edit'
-                              ),
-                              FlatButton(
-                                icon: m.Icons.delete,
-                                backGroundColor: Colors.white,
-                                borderColor: primaryColor,
-                                textColor: primaryColor,
-                                onPressed: () {
-                                 firestore.collection("computers").document(snapshot.data![index].id).delete();
-                                },
-                                txt: 'remove',
-                              ),
-                            ],
+                                  txt: 'remove',
+                                ),
+                              ],
+                            ),
+                            leading:Image.asset(computerImageTaken(snapshot.data![index]["manufacturer"]),height: 200,width: 200,),
+                          ),
+                          Center(
+                            child: Text(
+                              snapshot.data![index]["purchaseDate"]+ "\n" + snapshot.data![index]["graphicCards"]+ "\n" +snapshot.data![index]["operateurSystem"]+ "\n" +snapshot.data![index]["processeur"] + "\n" + snapshot.data![index]["randomAccessMemory"]+ "\n" +snapshot.data![index]["physicalMemory"],
+                              style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                            ),
                           ),
                         ],
                       ),
@@ -119,6 +120,6 @@ class _ComputerPageState extends State<ComputerPage> {
               });
         }
       ),
-    );
+    )T;
   }
 } /**/

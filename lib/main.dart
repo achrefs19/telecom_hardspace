@@ -4,11 +4,17 @@ import 'package:f/pages/home.dart';
 import 'package:f/services/auth_service.dart';
 import 'package:firedart/firedart.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:local_notifier/local_notifier.dart';
 
 void main() async {
   FirebaseAuth.initialize('AIzaSyBpoRYI9Mc_sjt-3rSvuA-LgocDlFtfsSI', VolatileStore());
   Firestore.initialize("telecom-hardspace");
-
+  WidgetsFlutterBinding.ensureInitialized();
+  await localNotifier.setup(
+    appName: 'local_notifier_example',
+    // The parameter shortcutPolicy only works on Windows
+    shortcutPolicy: ShortcutPolicy.requireCreate,
+  );
   runApp(MyApp());
 }
 

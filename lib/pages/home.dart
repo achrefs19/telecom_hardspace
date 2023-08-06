@@ -1,6 +1,7 @@
 import 'package:f/components/flat_button.dart';
 import 'package:f/constants.dart';
 import 'package:f/pages/computers_page.dart';
+import 'package:f/pages/reclamations_page.dart';
 import 'package:f/services/auth_service.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,7 @@ class _HomePageState extends State<HomePage> {
           PaneItemExpander(selectedTileColor: ButtonState.all(primaryColor),icon: const Icon(FluentIcons.pc1), title: const Text('Equipments'),body: const Center(child: Text("ss")),items: [
             PaneItem(icon: const Icon(FluentIcons.pc1), title: const Text('Coputers'),body: ComputerPage())
           ]),
-          PaneItem(selectedTileColor: ButtonState.all(primaryColor), icon: const Icon(FluentIcons.add_event), title: const Text('ss'),body: const Center(child: Text("dd")))
+          PaneItem(selectedTileColor: ButtonState.all(primaryColor), icon: const Icon(FluentIcons.comment), title: const Text('Reclamations'),body: ReclamationsPage())
 
         ]
     );
