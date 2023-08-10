@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firedart/firedart.dart';
 import 'package:flutter/cupertino.dart';
 
 //User userJson(dynamic str)=>
@@ -14,8 +15,9 @@ class User{
   dynamic _governorate="";
   dynamic _password="";
   dynamic _confirmPassword="";
+  dynamic _role="";
 
-  User({firstName, lastName, email, governorate, city, password, confirmPassword}){
+  User({firstName, lastName, email, governorate, city, password, confirmPassword, role , id}){
     _firstName = firstName;
     _lastName = lastName;
     _email = email;
@@ -23,6 +25,12 @@ class User{
     _governorate = governorate;
     _password = password;
     _confirmPassword = confirmPassword;
+    _role = role;
+    _id = id;
+  }
+
+  factory User.fromDoc(Document user){
+    return User(id: user.id,firstName:  user["firstName"],lastName:  ["lastName"]);
   }
 
   factory User.fromJson(Map<dynamic, dynamic> json){
@@ -79,9 +87,17 @@ class User{
     _governorate = value;
   }
 
+
+  dynamic get role => _role;
+
+  set role(dynamic value) {
+    _role = value;
+  }
+
   dynamic get id => _id;
 
   set id(dynamic value) {
     _id = value;
   }
+
 }

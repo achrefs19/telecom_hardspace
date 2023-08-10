@@ -1,16 +1,22 @@
 import 'package:f/models/User.dart';
+import 'package:firedart/firestore/models.dart';
 
-class Reclamation{
+class Reclaim{
 
   String _id;
   String _title;
   String _description;
-  String _createdAt;
+  DateTime _createdAt;
   String _priority;
   User _user;
 
-  Reclamation(this._id, this._title, this._description, this._createdAt, this._priority,
+  Reclaim(this._id, this._title, this._description, this._createdAt, this._priority,
       this._user);
+
+
+  factory Reclaim.fromDoc(Document reclaim){
+    return Reclaim(reclaim.id, reclaim["title"], reclaim["description"], reclaim["createdAt"], reclaim["priority"], User(id: reclaim["userId"]));
+  }
 
   User get user => _user;
 
@@ -24,9 +30,10 @@ class Reclamation{
     _priority = value;
   }
 
-  String get createdAt => _createdAt;
 
-  set createdAt(String value) {
+  DateTime get createdAt => _createdAt;
+
+  set createdAt(DateTime value) {
     _createdAt = value;
   }
 
@@ -47,4 +54,5 @@ class Reclamation{
   set id(String value) {
     _id = value;
   }
+
 }

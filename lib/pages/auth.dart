@@ -24,6 +24,15 @@ class _AuthState extends State<Auth> {
   bool passwordMatch = true;
   bool confirmPasswordMatch = true;
   bool emailNotExist=true;
+  String? _selectedRole = "";
+  List<String> roles= ["IT","HR"];
+
+  late TextEditingController _firstNameController ;
+  late TextEditingController _lastNameController ;
+  late TextEditingController _emailController ;
+  late TextEditingController _passwordController ;
+  late TextEditingController _confirmPasswordController ;
+  bool _isSelect = true;
 
   bool _validate(){
     if(_emailController.text.isEmpty || !_emailController.text.contains('@') || !_emailController.text.contains('.')){
@@ -73,16 +82,12 @@ class _AuthState extends State<Auth> {
           'firstName': _firstNameController.text,
           'lastName':_lastNameController.text,
           'email':_emailController.text,
+          'role': _selectedRole,
+          'status': "connected"
         });
       }
 
   }
-
-  late TextEditingController _firstNameController ;
-  late TextEditingController _lastNameController ;
-  late TextEditingController _emailController ;
-  late TextEditingController _passwordController ;
-  late TextEditingController _confirmPasswordController ;
 
   @override
   void initState() {
@@ -211,6 +216,29 @@ class _AuthState extends State<Auth> {
                   Offstage(
                     offstage: confirmPasswordMatch,
                     child: const Text("Passwords doesn't correspond"),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  if (!_isLogin)
+                  Container(
+                    height: 40,
+                    child: ComboBox<String>(
+                      icon: Icon(FluentIcons.add_work),
+                      iconSize: 15,
+                      iconEnabledColor: primaryColor,
+                      value: _selectedRole!.isEmpty? null: _selectedRole,
+                      items: roles.map<ComboBoxItem<String>>((e) {
+                        return ComboBoxItem<String>(
+                          child: Text(e),
+                          value: e,
+                        );
+                      }).toList(),
+                      onChanged:(priorty) {
+                        setState(() => _selectedRole = priorty);
+                      },
+                      placeholder: const Text('Select a role'),
+                    ),
                   ),
                   /*Row(
                     children: [

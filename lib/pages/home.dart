@@ -1,7 +1,7 @@
 import 'package:f/components/flat_button.dart';
 import 'package:f/constants.dart';
 import 'package:f/pages/computers_page.dart';
-import 'package:f/pages/reclamations_page.dart';
+import 'package:f/pages/reclaim_page.dart';
 import 'package:f/services/auth_service.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
 
   _getAppBar(){
     return NavigationAppBar(
-        title: Text(
+        title: const Text(
           'Telecom HardSpace',
           style: TextStyle(
               fontSize: 20,
@@ -55,10 +55,11 @@ class _HomePageState extends State<HomePage> {
           });
         },
         items: [
-          PaneItemExpander(selectedTileColor: ButtonState.all(primaryColor),icon: const Icon(FluentIcons.pc1), title: const Text('Equipments'),body: const Center(child: Text("ss")),items: [
-            PaneItem(icon: const Icon(FluentIcons.pc1), title: const Text('Coputers'),body: ComputerPage())
+          PaneItemExpander(icon: const Icon(FluentIcons.pc1), title: const Text('Equipments'),body: const Center(child: Text("ss")),items: [
+            PaneItem(icon: const Icon(FluentIcons.laptop_secure), title: const Text('Laptops'),body: ComputerPage()),
+            PaneItem(icon: const Icon(FluentIcons.pc1), title: const Text('Desktops'),body: ComputerPage())
           ]),
-          PaneItem(selectedTileColor: ButtonState.all(primaryColor), icon: const Icon(FluentIcons.comment), title: const Text('Reclamations'),body: ReclamationsPage())
+          PaneItem(icon: const Icon(FluentIcons.comment), title: const Text('Reclamations'),body: ReclaimPage())
 
         ]
     );

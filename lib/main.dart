@@ -31,9 +31,6 @@ class MyApp extends StatelessWidget {
         inactiveBackgroundColor: blankColor,
 
       ),
-      /*theme: FluentThemeData(
-        accentColor:
-      ),*/
       home:StreamBuilder(
           stream: _firebaseAuth.signInState,
           builder: (ctx, snapshot) {

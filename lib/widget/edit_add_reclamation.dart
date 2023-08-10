@@ -1,30 +1,27 @@
-import 'dart:math';
-
-import 'package:f/components/flat_button.dart';
-import 'package:f/components/progress_but.dart';
 import 'package:f/constants.dart';
-import 'package:f/models/Computer.dart';
-import 'package:f/models/Reclamation.dart';
+import 'package:f/models/Reclaim.dart';
 import 'package:f/services/mailer.dart';
 import 'package:f/services/notification.dart';
 import 'package:firedart/firedart.dart';
 import 'package:firedart/generated/google/protobuf/timestamp.pb.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:local_notifier/local_notifier.dart';
 import 'package:progress_state_button/progress_button.dart' as pb;
 
 class EditAddReclamation extends StatefulWidget {
-  Reclamation reclamation;
-  EditAddReclamation(Reclamation this.reclamation, {super.key});
+  Reclaim reclamation;
+  EditAddReclamation(this.reclamation, {super.key});
   @override
   State<EditAddReclamation> createState() => _EditAddReclamationState();
 }
 
 class _EditAddReclamationState extends State<EditAddReclamation> {
 
-  var butttonState = pb.ButtonState.idle;
   bool _isUpdate = false;
+  late TextEditingController _titleController;
+  late TextEditingController _descriptionController;
+  List<String> periority= ["medium","high","crucial"];
+  String? _selectedPiority = "medium";
 
   Firestore firestore = Firestore.instance;
   final userId = FirebaseAuth.instance!.userId;
@@ -41,6 +38,10 @@ class _EditAddReclamationState extends State<EditAddReclamation> {
       'userId': userId,
       'userName': user["firstName"]+" "+ user["lastName"],
     });
+
+    if(_selectedPiority=="crucial"){
+      Mailer(subject: _titleController.text,text: _descriptionController.text, username: user["firstName"]+" "+ user["lastName"]);
+    }
 
     notifier(title: user["firstName"]+" "+ user["lastName"],body: _titleController.text);
     Mailer();
@@ -59,13 +60,6 @@ class _EditAddReclamationState extends State<EditAddReclamation> {
     Navigator.pop(context);
   }
 
-  late TextEditingController _titleController;
-  late TextEditingController _descriptionController;
-  List<String> periority= ["medium","high","crucial"];
-  String? _selectedPiority = "medium";
-
-  var _datepurchase;
-
   @override void initState() {
     // TODO: implement initState
     _titleController = TextEditingController();
@@ -83,11 +77,11 @@ class _EditAddReclamationState extends State<EditAddReclamation> {
   @override
   Widget build(BuildContext context) {
     return ContentDialog(
-      title: Text('Add Computer'),
+      title: const Text('Add Computer'),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           InfoLabel(
@@ -98,12 +92,8 @@ class _EditAddReclamationState extends State<EditAddReclamation> {
               controller: _titleController,
             ),
           ),
-          Offstage(
-            offstage: true,
-            child: Text("you must enter a topic"),
-          ),
 
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           InfoLabel(
@@ -116,15 +106,7 @@ class _EditAddReclamationState extends State<EditAddReclamation> {
               maxLines: 8,
             ),
           ),
-          Offstage(
-            offstage: true,
-            child: Text("you must enter an operator system"),
-          ),
-          Offstage(
-            offstage: true,
-            child: Text("you must enter a model"),
-          ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           InfoLabel(
@@ -133,8 +115,8 @@ class _EditAddReclamationState extends State<EditAddReclamation> {
               value: _selectedPiority,
               items: periority.map<ComboBoxItem<String>>((e) {
                 return ComboBoxItem<String>(
-                  child: Text(e),
                   value: e,
+                  child: Text(e),
                 );
               }).toList(),
               onChanged:(priorty) {
@@ -146,8 +128,8 @@ class _EditAddReclamationState extends State<EditAddReclamation> {
         ],
       ),
       actions: [
-        TextButton(onPressed: ()=>Navigator.pop(context), child: Text('Cancel', style: TextStyle(color: primaryColor))),
-        TextButton(onPressed: (){!_isUpdate ? addReclamation() : modifyComputer();}, child: Text(!_isUpdate ? 'Add' : 'update',style: TextStyle(color: primaryColor),))
+        TextButton(onPressed: ()=>Navigator.pop(context), child: const Text('Cancel', style: TextStyle(color: primaryColor))),
+        TextButton(onPressed: (){!_isUpdate ? addReclamation() : modifyComputer();}, child: Text(!_isUpdate ? 'Add' : 'update',style: const TextStyle(color: primaryColor),))
       ],
     );
   }

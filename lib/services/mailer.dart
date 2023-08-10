@@ -3,15 +3,15 @@ import 'dart:io';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 
-Mailer() async {
-  // Note that using a username and password for gmail only works if
+Mailer({username,text="",subject=""}) async {
+  // Note that using a mail and password for gmail only works if
   // you have two-factor authentication enabled and created an App password.
   // Search for "gmail app password 2fa"
   // The alternative is to use oauth.
-  String username = 'achrefsmidaayari@gmail.com';
+  String mail = 'achrefsmidaayari@gmail.com';
   String password = 'Achref1999*';
 
-  final smtpServer = gmail(username, password);
+  final smtpServer = gmail(mail, password);
   // Use the SmtpServer class to configure an SMTP server:
   // final smtpServer = SmtpServer('smtp.domain.com');
   // See the named arguments of SmtpServer for further configuration
@@ -19,12 +19,12 @@ Mailer() async {
 
   // Create our message.
   final message = Message()
-    ..from = Address(username, 'Your name')
+    ..from = Address(mail, username)
     ..recipients.add('destination@example.com')
-    ..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
-    ..bccRecipients.add(Address('bccAddress@example.com'))
-    ..subject = 'Test Dart Mailer library :: 😀 :: ${DateTime.now()}'
-    ..text = 'This is the plain text.\nThis is line 2 of the text part.'
+    //..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
+    //..bccRecipients.add(Address('bccAddress@example.com'))
+    ..subject = subject
+    ..text = text
     ..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
 
   try {
@@ -48,8 +48,8 @@ Mailer() async {
   // Creating and adding an Address object without a name part
   // `new Address('destination@example.com')` is equivalent to
   // adding the mail address as `String`.
-  final equivalentMessage = Message()
-    ..from = Address(username, 'Your name 😀')
+  /*final equivalentMessage = Message()
+    ..from = Address(mail, 'Your name 😀')
     ..recipients.add(Address('destination@example.com'))
     ..ccRecipients.addAll([Address('destCc1@example.com'), 'destCc2@example.com'])
     ..bccRecipients.add('bccAddress@example.com')
@@ -62,7 +62,7 @@ Mailer() async {
         ..cid = '<myimg@3.141>'
     ];
 
-  final sendReport2 = await send(equivalentMessage, smtpServer);
+  final sendReport2 = await send(equivalentMessage, smtpServer);*/
 
   // Sending multiple messages with the same connection
   //
@@ -73,7 +73,7 @@ Mailer() async {
   await connection.send(message);
 
   // send the equivalent message
-  await connection.send(equivalentMessage);
+ // await connection.send(equivalentMessage);
 
   // close the connection
   await connection.close();
