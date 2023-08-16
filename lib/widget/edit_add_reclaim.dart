@@ -1,21 +1,21 @@
 import 'package:f/constants.dart';
 import 'package:f/models/Reclaim.dart';
-import 'package:f/services/mailer.dart';
-import 'package:f/services/notification.dart';
+import 'package:f/tools/mailer.dart';
+import 'package:f/tools/notification.dart';
 import 'package:firedart/firedart.dart';
 import 'package:firedart/generated/google/protobuf/timestamp.pb.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_state_button/progress_button.dart' as pb;
 
-class EditAddReclamation extends StatefulWidget {
+class EditAddReclaim extends StatefulWidget {
   Reclaim reclamation;
-  EditAddReclamation(this.reclamation, {super.key});
+  EditAddReclaim(this.reclamation, {super.key});
   @override
-  State<EditAddReclamation> createState() => _EditAddReclamationState();
+  State<EditAddReclaim> createState() => _EditAddReclaimState();
 }
 
-class _EditAddReclamationState extends State<EditAddReclamation> {
+class _EditAddReclaimState extends State<EditAddReclaim> {
 
   bool _isUpdate = false;
   late TextEditingController _titleController;
@@ -26,31 +26,34 @@ class _EditAddReclamationState extends State<EditAddReclamation> {
   Firestore firestore = Firestore.instance;
   final userId = FirebaseAuth.instance!.userId;
 
-  void addReclamation() async {
+  void addReclaim() async {
 
     var user = await firestore.collection("users").document(userId).get();
 
-    await firestore.collection("reclamations").add({
+    await firestore.collection("reclaims").add({
       'title': _titleController.text,
       'description':_descriptionController.text,
       'priority': _selectedPiority,
       'createdAt': DateTime.now(),
       'userId': userId,
       'userName': user["firstName"]+" "+ user["lastName"],
+      'viewers': []
     });
 
     if(_selectedPiority=="crucial"){
-      Mailer(subject: _titleController.text,text: _descriptionController.text, username: user["firstName"]+" "+ user["lastName"]);
+      var users = await Firestore.instance.collection("users").where("role",isEqualTo: "it").get();
+      for (var user in users) {
+        Mailer(subject: _titleController.text,text: _descriptionController.text, username: user["firstName"]+" "+ user["lastName"]);
+      }
     }
 
     notifier(title: user["firstName"]+" "+ user["lastName"],body: _titleController.text);
-    Mailer();
 
     Navigator.pop(context);
   }
 
   void modifyComputer() async {
-    await firestore.collection("computers").document(widget.reclamation.id).set({
+    await firestore.collection("reclaims").document(widget.reclamation.id).set({
       'title': _titleController.text,
       'description':_descriptionController.text,
       'priority': _selectedPiority,
@@ -122,14 +125,14 @@ class _EditAddReclamationState extends State<EditAddReclamation> {
               onChanged:(priorty) {
                 setState(() => _selectedPiority = priorty);
               },
-              placeholder: const Text('Select a cat breed'),
+              //placeholder: const Text('Select a cat breed'),
             ),
           ),
         ],
       ),
       actions: [
         TextButton(onPressed: ()=>Navigator.pop(context), child: const Text('Cancel', style: TextStyle(color: primaryColor))),
-        TextButton(onPressed: (){!_isUpdate ? addReclamation() : modifyComputer();}, child: Text(!_isUpdate ? 'Add' : 'update',style: const TextStyle(color: primaryColor),))
+        TextButton(onPressed: (){!_isUpdate ? addReclaim() : modifyComputer();}, child: Text(!_isUpdate ? 'Add' : 'update',style: const TextStyle(color: primaryColor),))
       ],
     );
   }

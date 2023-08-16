@@ -1,8 +1,10 @@
 import 'package:f/components/flat_button.dart';
 import 'package:f/constants.dart';
 import 'package:f/pages/computers_page.dart';
+import 'package:f/pages/printers_page.dart';
 import 'package:f/pages/reclaim_page.dart';
 import 'package:f/services/auth_service.dart';
+import 'package:f/services/user_services.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +16,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final FirebaseAuthService _firebaseAuthService = FirebaseAuthService();
   int selectedIndex = 0;
+  final UserServices userServices = UserServices();
+
   @override
   Widget build(BuildContext context) {
     return NavigationView(
@@ -36,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         actions: Row(
           children: [
             Spacer(),
-            FlatButton(onPressed: () => _firebaseAuthService.signOut(), icon: Icons.logout, txt: "Logout",backGroundColor: primaryColor,)
+            FlatButton(onPressed: () => userServices.signOut(), icon: Icons.logout, txt: "Logout",backGroundColor: primaryColor,)
           ],
         )
     );
@@ -57,7 +60,8 @@ class _HomePageState extends State<HomePage> {
         items: [
           PaneItemExpander(icon: const Icon(FluentIcons.pc1), title: const Text('Equipments'),body: const Center(child: Text("ss")),items: [
             PaneItem(icon: const Icon(FluentIcons.laptop_secure), title: const Text('Laptops'),body: ComputerPage()),
-            PaneItem(icon: const Icon(FluentIcons.pc1), title: const Text('Desktops'),body: ComputerPage())
+            PaneItem(icon: const Icon(FluentIcons.pc1), title: const Text('Desktops'),body: ComputerPage()),
+            PaneItem(icon: const Icon(FluentIcons.print), title: const Text('Printers'),body: PrintersPage()),
           ]),
           PaneItem(icon: const Icon(FluentIcons.comment), title: const Text('Reclamations'),body: ReclaimPage())
 

@@ -8,12 +8,13 @@ class FlatButton extends StatelessWidget {
   Color borderColor;
   IconData icon;
   double radius;
-  FlatButton({required this.onPressed ,this.borderColor= Colors.white ,this.txt = "", this.backGroundColor = Colors.black, this.textColor = Colors.white, this.icon = Icons.verified, this.radius = 10});
+  double height;
+  FlatButton({required this.onPressed, this.height=60 ,this.borderColor= Colors.white ,this.txt = "", this.backGroundColor = Colors.black, this.textColor = Colors.white, this.icon = Icons.verified, this.radius = 10});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: height,
       child: ElevatedButton.icon(
           icon: Icon(icon),
           onPressed: () => onPressed(),

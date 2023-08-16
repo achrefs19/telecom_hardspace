@@ -3,8 +3,10 @@ class Equipment{
   String _manufacturer;
   String _model;
   String _PurchaseDate;
+  String _userId;
+  String _status;
 
-  Equipment(this._id ,this._manufacturer, this._model, this._PurchaseDate);
+  Equipment(this._userId, this._status, this._id ,this._manufacturer, this._model, this._PurchaseDate);
 
   String get PurchaseDate => _PurchaseDate;
 
@@ -28,5 +30,17 @@ class Equipment{
 
   set id(String value) {
     _id = value;
+  }
+
+  String get status => _status;
+
+  set status(String value) {
+    _status = value;
+  }
+
+  String get userId => _userId;
+
+  set userId(String value) {
+    _userId = value;
   }
 }

@@ -28,7 +28,7 @@ class _EditAddComputerState extends State<EditAddComputer> {
     await WindowsSystemInfo.initWindowsInfo();
     if (await WindowsSystemInfo.isInitilized) {
       _manufacturerController.text = WindowsSystemInfo.baseBoard!.manufacturer;
-      _modelController.text = WindowsSystemInfo.os.toString();
+      _modelController.text = WindowsSystemInfo.windowsSystemInformation!.system.model;
       _operatorSystemController.text = WindowsSystemInfo.os!.distro + " " + WindowsSystemInfo.os!.arch;
       _cpuController.text = WindowsSystemInfo.cpu!.brand;
       _ramController.text = ((WindowsSystemInfo.memories[0]!.size+WindowsSystemInfo.memories[1]!.size)/ pow(1024, 3)).toString() + " GB";
@@ -44,12 +44,15 @@ class _EditAddComputerState extends State<EditAddComputer> {
   void addComputer() async {
     await firestore.collection("computers").add({
       'manufacturer': _manufacturerController.text,
+      'model': _modelController.text,
       'physicalMemory':_physicalMemoryController.text,
       'randomAccessMemory':_ramController.text,
       'processeur':_cpuController.text,
       'operateurSystem':_operatorSystemController.text,
       'graphicCards':_gpuController.text,
-      'purchaseDate': _datepurchase
+      'purchaseDate': _datepurchase,
+      'userId': "not used",
+      'status': "not used"
     });
     Navigator.pop(context);
   }
@@ -57,12 +60,15 @@ class _EditAddComputerState extends State<EditAddComputer> {
   void modifyComputer() async {
     await firestore.collection("computers").document(widget.computer.id).set({
       'manufacturer': _manufacturerController.text,
+      'model': _modelController.text,
       'physicalMemory':_physicalMemoryController.text,
       'randomAccessMemory':_ramController.text,
       'processeur':_cpuController.text,
       'operateurSystem':_operatorSystemController.text,
       'graphicCards':_gpuController.text,
-      'purchaseDate': _datepurchase
+      'purchaseDate': _datepurchase,
+      'userId': widget.computer.userId,
+      'status': widget.computer.status
     });
     Navigator.pop(context);
   }
@@ -134,6 +140,22 @@ class _EditAddComputerState extends State<EditAddComputer> {
           Offstage(
             offstage: true,
             child: Text("you must enter a manufacturer"),
+          ),
+
+          SizedBox(
+            height: 10,
+          ),
+          InfoLabel(
+            label: 'Enter computer model:',
+            child: TextBox(
+              placeholder: 'Model',
+              expands: false,
+              controller: _modelController,
+            ),
+          ),
+          Offstage(
+            offstage: true,
+            child: Text("you must enter a model"),
           ),
 
           SizedBox(
@@ -225,6 +247,7 @@ class _EditAddComputerState extends State<EditAddComputer> {
                 backGroundColor: Color(0xffffffff),
                 textColor: primaryColor,
                 borderColor: primaryColor,
+                height: 40,
                 radius: 5,
                 icon: Icons.date_range),
           ),
@@ -237,21 +260,3 @@ class _EditAddComputerState extends State<EditAddComputer> {
     );
   }
 }
-
-/*
-SizedBox(
-            height: 10,
-          ),
-          InfoLabel(
-            label: 'Enter computer model:',
-            child: TextBox(
-              placeholder: 'Model',
-              expands: false,
-              controller: _modelController,
-            ),
-          ),
-          Offstage(
-            offstage: true,
-            child: Text("you must enter a model"),
-          ),
- */

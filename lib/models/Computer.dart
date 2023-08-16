@@ -8,7 +8,7 @@ class Computer extends Equipment {
   String _graphicCards;
   String _physicalMemory;
 
-  Computer(super._id, super._manufacturer,super._model,super._PurchaseDate,this._graphicCards, this._operatorSystem,this._processeur, this._randomAccessMemory, this._physicalMemory);
+  Computer(super._id, super._status, super._userId, super._manufacturer,super._model,super._PurchaseDate,this._graphicCards, this._operatorSystem,this._processeur, this._randomAccessMemory, this._physicalMemory);
 
   String get physicalMemory => _physicalMemory;
 

@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 
-Mailer({username,text="",subject=""}) async {
+Mailer({username,text="",subject="",receiver=""}) async {
   // Note that using a mail and password for gmail only works if
   // you have two-factor authentication enabled and created an App password.
   // Search for "gmail app password 2fa"
   // The alternative is to use oauth.
-  String mail = 'achrefsmidaayari@gmail.com';
-  String password = 'Achref1999*';
+  String mail = 'achrefsmida999@gmail.com';
+  String password = 'bbdcjnokhivhuydi';
 
   final smtpServer = gmail(mail, password);
   // Use the SmtpServer class to configure an SMTP server:
@@ -20,12 +20,12 @@ Mailer({username,text="",subject=""}) async {
   // Create our message.
   final message = Message()
     ..from = Address(mail, username)
-    ..recipients.add('destination@example.com')
+    ..recipients.add('achrefsmidaayari@gmail.com')
     //..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
     //..bccRecipients.add(Address('bccAddress@example.com'))
     ..subject = subject
     ..text = text
-    ..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+    ..html = "<h1>$subject</h1>\n<p>$text</p>";
 
   try {
     final sendReport = await send(message, smtpServer);

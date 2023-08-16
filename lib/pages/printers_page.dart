@@ -1,20 +1,23 @@
 import 'package:f/components/flat_button.dart';
 import 'package:f/constants.dart';
+import 'package:f/enums/printer_type.dart';
 import 'package:f/models/Computer.dart';
+import 'package:f/models/Printer.dart';
 import 'package:f/tools/image_taker.dart';
 import 'package:f/widget/edit_add_computer.dart';
+import 'package:f/widget/edit_add_printer.dart';
 import 'package:firedart/firedart.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart' as m;
 
-class ComputerPage extends StatefulWidget {
-  ComputerPage({super.key});
+class PrintersPage extends StatefulWidget {
+  PrintersPage({super.key});
 
   @override
-  State<ComputerPage> createState() => _ComputerPageState();
+  State<PrintersPage> createState() => _PrintersPageState();
 }
 
-class _ComputerPageState extends State<ComputerPage> {
+class _PrintersPageState extends State<PrintersPage> {
   Firestore firestore = Firestore.instance;
 
   @override
@@ -25,15 +28,16 @@ class _ComputerPageState extends State<ComputerPage> {
             onPressed: () => showDialog(
                 context: context,
                 builder: (ctxt) {
-                  return EditAddComputer(
-                      Computer("", "", "", "", "", "", "", "", "", "", ""));
+                  return EditAddPrinter(
+                      Printer("", "", "", "", "", "", PrinterType.laser, [], "", "", "","","")
+                  );
                 }),
-            txt: "Add Computer",
+            txt: "Add Printer",
             backGroundColor: primaryColor,
             icon: FluentIcons.add),
       ),
       content: StreamBuilder(
-          stream: Firestore.instance.collection("computers").stream,
+          stream: Firestore.instance.collection("printers").stream,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting &&
                 !snapshot.hasData) {
@@ -80,7 +84,7 @@ class _ComputerPageState extends State<ComputerPage> {
                                   style: TooltipThemeData(preferBelow: true),
                                   child: Icon(FluentIcons.square_shape_solid,
                                       color: snapshot.data![index]["status"] ==
-                                              "connected"
+                                          "connected"
                                           ? m.Colors.green
                                           : m.Colors.red,
                                       size: 12.0),
@@ -155,20 +159,20 @@ class _ComputerPageState extends State<ComputerPage> {
                                             snapshot.data![index]["status"],
                                             snapshot.data![index]["userId"],
                                             snapshot.data![index]
-                                                ["manufacturer"],
+                                            ["manufacturer"],
                                             snapshot.data![index]
-                                                ["model"],
+                                            ["model"],
                                             snapshot.data![index]
-                                                ["purchaseDate"],
+                                            ["purchaseDate"],
                                             snapshot.data![index]
-                                                ["graphicCards"],
+                                            ["graphicCards"],
                                             snapshot.data![index]
-                                                ["operateurSystem"],
+                                            ["operateurSystem"],
                                             snapshot.data![index]["processeur"],
                                             snapshot.data![index]
-                                                ["randomAccessMemory"],
+                                            ["randomAccessMemory"],
                                             snapshot.data![index]
-                                                ["physicalMemory"]));
+                                            ["physicalMemory"]));
                                       });
                                 },
                                 txt: MediaQuery.of(context).size.width > 800
@@ -247,7 +251,7 @@ class _ComputerPageState extends State<ComputerPage> {
                                 snapshot.data![index]["userId"] == ""
                                     ? "link"
                                     : "unlink",
-                                style: TextStyle(color: primaryColor),
+                                style: const TextStyle(color: primaryColor),
                               ))
                         ],
                       ),
@@ -283,12 +287,12 @@ class _ComputerPageState extends State<ComputerPage> {
                                         snapshot.data![index]["purchaseDate"],
                                         snapshot.data![index]["graphicCards"],
                                         snapshot.data![index]
-                                            ["operateurSystem"],
+                                        ["operateurSystem"],
                                         snapshot.data![index]["processeur"],
                                         snapshot.data![index]
-                                            ["randomAccessMemory"],
+                                        ["randomAccessMemory"],
                                         snapshot.data![index]
-                                            ["physicalMemory"]));
+                                        ["physicalMemory"]));
                                   });
                             },
                             txt: 'edit'),
@@ -309,19 +313,18 @@ class _ComputerPageState extends State<ComputerPage> {
                     ),
                   ];
 
-                  return Container(
-                      child: Card(
-                        margin: EdgeInsets.only(bottom: 10),
+                  return Card(
+                    margin: EdgeInsets.only(bottom: 10),
                     borderRadius: BorderRadius.circular(10),
                     borderColor: primaryColor,
                     child: MediaQuery.of(context).size.width > 800
                         ? Row(
-                            children: computerContent,
-                          )
+                      children: computerContent,
+                    )
                         : Column(
-                            children: mobileContent,
-                          ),
-                  ));
+                      children: mobileContent,
+                    ),
+                  );
                 });
           }),
     );

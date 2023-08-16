@@ -4,7 +4,8 @@ import 'package:f/constants.dart';
 import 'package:f/models/Reclaim.dart';
 import 'package:f/models/User.dart';
 import 'package:f/pages/reclaim_details_page.dart';
-import 'package:f/widget/edit_add_reclamation.dart';
+import 'package:f/services/reclaim_services.dart';
+import 'package:f/widget/edit_add_reclaim.dart';
 import 'package:firedart/firedart.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart' as m;
@@ -17,10 +18,11 @@ class ReclaimPage extends StatefulWidget {
 }
 
 class _ReclaimPageState extends State<ReclaimPage> {
+  ReclaimServices rs = ReclaimServices();
   Firestore firestore = Firestore.instance;
   List data = [];
   String selectedReclaimId = '';
-  late Reclaim selectedReclaim = Reclaim("", "", "", DateTime.now(), "", User());
+  late Reclaim selectedReclaim = Reclaim("",[], "", "", DateTime.now(), "", User());
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +33,16 @@ class _ReclaimPageState extends State<ReclaimPage> {
             onPressed: () => showDialog(
                 context: context,
                 builder: (ctxt) {
-                  return EditAddReclamation(Reclaim("","","",DateTime.now(),"",User()));
+                  return EditAddReclaim(Reclaim("",[],"","",DateTime.now(),"",User()));
                 }),
-            txt: "Add Reclaim.dart",
+            txt: "Add Reclaim",
             backGroundColor: primaryColor,
             icon: FluentIcons.add),
       ),
 
       content:
       StreamBuilder(
-          stream: Firestore.instance.collection("reclamations").stream,
+          stream: Firestore.instance.collection("reclaims").stream,
           builder: (context, snapshot) {
 
             bool changeUI = MediaQuery.of(context).size.width<500 &&  selectedReclaimId.isNotEmpty;
@@ -80,7 +82,7 @@ class _ReclaimPageState extends State<ReclaimPage> {
                           ),
                           trailing: Text("${formatDate(snapshot.data![index]["createdAt"], [dd, ' ', MM, ' ', yyyy])}\n${formatDate(snapshot.data![index]["createdAt"], [hh, ':', nn, ' ', am])}"),
                           selected: selectedReclaimId == snapshot.data![index].id,
-                          onSelectionChange: (v) => setState((){selectedReclaimId = snapshot.data![index].id; selectedReclaim = Reclaim.fromDoc(snapshot.data![index]);}),
+                          onSelectionChange: (v) => setState((){selectedReclaimId = snapshot.data![index].id; selectedReclaim = Reclaim.fromDoc(snapshot.data![index]);rs.markView(snapshot.data![index].id);}),
                           shape: const BorderDirectional(
                               bottom: BorderSide(color: primaryColor, width: 1)
                           ),

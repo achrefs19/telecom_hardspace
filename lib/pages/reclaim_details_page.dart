@@ -1,4 +1,6 @@
+import 'package:badges/badges.dart';
 import 'package:f/components/answers.dart';
+import 'package:f/components/my_badge.dart';
 import 'package:f/components/new_answer.dart';
 import 'package:f/constants.dart';
 import 'package:f/models/Reclaim.dart';
@@ -26,6 +28,7 @@ class _ReclaimDetailsPageState extends State<ReclaimDetailsPage> {
             subtitle: Text(widget.reclaim.description,style: const TextStyle(
                 fontSize: 16,color: secondaryColor
             )),
+            trailing: MyBadge(widget.reclaim.viewers.length),
 
           )),
           const SizedBox(

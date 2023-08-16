@@ -34,6 +34,7 @@ class _NewAnswerState extends State<NewAnswer> {
     //final userData = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
 
     Firestore firestore = Firestore.instance;
+
     final userData = await firestore
         .collection("users")
         .document(FirebaseAuth.instance.userId)

@@ -7,6 +7,8 @@ import 'package:f/components/user_image_picker.dart';
 import 'package:f/constants.dart';
 import 'package:f/models/User.dart';
 import 'package:f/services/auth_service.dart';
+import 'package:f/services/reclaim_services.dart';
+import 'package:f/services/user_services.dart';
 import 'package:firedart/firedart.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart' as m;
@@ -19,6 +21,10 @@ class Auth extends StatefulWidget {
 }
 
 class _AuthState extends State<Auth> {
+
+  final UserServices userServices = UserServices();
+  final ReclaimServices reclaimServices = ReclaimServices();
+
   User user = User();
   bool emailMatch=true;
   bool passwordMatch = true;
@@ -67,12 +73,13 @@ class _AuthState extends State<Auth> {
     if(!_validate()) {
       return;
     }
-    final FirebaseAuthService _firebaseAuthService = FirebaseAuthService();
+
       if (_isLogin) {
-       await _firebaseAuthService.signIn(_emailController.text, _passwordController.text);
+       await userServices.signIn(email: _emailController.text, password:  _passwordController.text);
+        await reclaimServices.notify();
       }
       else {
-       await _firebaseAuthService.signUp(_emailController.text, _passwordController.text);
+       await userServices.signUp(email: _emailController.text, password:  _passwordController.text);
       }
 
       if(FirebaseAuth.instance!.isSignedIn && !_isLogin){

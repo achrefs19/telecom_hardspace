@@ -16,6 +16,7 @@ void main() async {
     shortcutPolicy: ShortcutPolicy.requireCreate,
   );
   runApp(MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -23,8 +24,12 @@ class MyApp extends StatelessWidget {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
+
+
+  @override
   Widget build(BuildContext context) {
     return FluentApp(
+        debugShowCheckedModeBanner: false,
       title: "Telecom Hardspace",
       theme: FluentThemeData(
         acrylicBackgroundColor: blankColor,
